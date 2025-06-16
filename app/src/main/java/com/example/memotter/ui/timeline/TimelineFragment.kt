@@ -39,7 +39,7 @@ class TimelineFragment : Fragment() {
 
     private fun setupViewModel() {
         val database = MemotterDatabase.getDatabase(requireContext())
-        val repository = MemoRepository(database.memoDao(), database.hashtagDao())
+        val repository = MemoRepository(database.memoDao(), database.hashtagDao(), requireContext())
         val factory = TimelineViewModelFactory(repository)
         timelineViewModel = ViewModelProvider(this, factory)[TimelineViewModel::class.java]
     }
@@ -51,9 +51,6 @@ class TimelineFragment : Fragment() {
             },
             onFavoriteClick = { memo ->
                 timelineViewModel.toggleFavorite(memo.id, !memo.isFavorite)
-            },
-            onMoreClick = { memo ->
-                // TODO: Show more options menu
             }
         )
 

@@ -9,14 +9,16 @@ import com.example.memotter.R
 import com.example.memotter.data.model.Memo
 import com.example.memotter.databinding.ItemMemoBinding
 import com.example.memotter.util.HashtagExtractor
+import io.noties.markwon.Markwon
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class MemoAdapter(
     private val onMemoClick: (Memo) -> Unit,
-    private val onFavoriteClick: (Memo) -> Unit,
-    private val onMoreClick: (Memo) -> Unit
+    private val onFavoriteClick: (Memo) -> Unit
 ) : ListAdapter<Memo, MemoAdapter.MemoViewHolder>(DiffCallback) {
+
+    private var markwon: Markwon? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoViewHolder {
         val binding = ItemMemoBinding.inflate(
@@ -24,6 +26,12 @@ class MemoAdapter(
             parent,
             false
         )
+        
+        // Initialize Markwon if not already initialized
+        if (markwon == null) {
+            markwon = Markwon.create(parent.context)
+        }
+        
         return MemoViewHolder(binding)
     }
 
@@ -42,8 +50,8 @@ class MemoAdapter(
                 val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault())
                 tvTimestamp.text = dateFormat.format(memo.createdAt)
 
-                // Set content with hashtag highlighting
-                tvContent.text = memo.content
+                // Set content with markdown rendering
+                markwon?.setMarkdown(tvContent, memo.content)
 
                 // Set hashtags if any
                 if (memo.hashtags.isNotEmpty()) {
@@ -61,7 +69,6 @@ class MemoAdapter(
                 // Set click listeners
                 root.setOnClickListener { onMemoClick(memo) }
                 btnFavorite.setOnClickListener { onFavoriteClick(memo) }
-                btnMore.setOnClickListener { onMoreClick(memo) }
             }
         }
     }

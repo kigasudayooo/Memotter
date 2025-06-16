@@ -153,7 +153,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📝 メモ作成・編集（マークダウン対応）\n🏷️ ハッシュタグ自動提案\n🔍 高速検索機能\n⭐ お気に入り管理\n📄 テンプレート機能\n💾 ファイル管理\n🎤 音声入力（日本語対応）"
+                        android:text="📝 メモ作成・編集（マークダウン対応）\n🏷️ ハッシュタグ自動提案\n🔍 高速検索機能\n⭐ お気に入り管理\n📁 ファイル開く・編集\n📤 エクスポート機能\n📱 カスタムディレクトリ指定\n🎤 音声入力（日本語対応）"
                         android:textColor="?attr/colorOnSurface"
                         android:lineSpacingExtra="4dp" />
 
@@ -212,7 +212,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📁 ファイル管理"
+                        android:text="📁 ファイル管理とエクスポート"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="?attr/colorPrimary"
@@ -221,7 +221,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ドキュメント名をタップ"
+                        android:text="📂 ファイルを開く"
                         android:textStyle="bold"
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="4dp" />
@@ -229,14 +229,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="→ 既存ファイルを選択・新規作成"
+                        android:text="→ メニュー > ファイルを開く > ファイル選択"
                         android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="12dp" />
+                        android:layout_marginBottom="8dp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="⚙️ボタンをタップ"
+                        android:text="📱 保存ディレクトリ変更"
                         android:textStyle="bold"
                         android:textColor="?attr/colorOnSurface"
                         android:layout_marginBottom="4dp" />
@@ -244,7 +244,22 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="→ 名前をつけて保存"
+                        android:text="→ 設定 > カスタムディレクトリを使用"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="📤 バックアップ/エクスポート"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorOnSurface"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="→ 設定 > データ管理 > エクスポート選択\n→ メニュー > エクスポート"
                         android:textColor="?attr/colorOnSurfaceVariant" />
 
                 </LinearLayout>

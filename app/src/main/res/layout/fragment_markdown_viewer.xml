@@ -20,11 +20,14 @@
             app:title="マークダウンビューア"
             app:titleTextColor="?attr/colorOnPrimary"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:navigationIconTint="?attr/colorOnPrimary" />
+            app:navigationIconTint="?attr/colorOnPrimary"
+            app:menu="@menu/markdown_viewer" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- View Mode: Raw markdown display -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_mode"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -95,15 +98,93 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Timeline Mode: Memo list display -->
+    <LinearLayout
+        android:id="@+id/layout_timeline_mode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- File information header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:background="?attr/colorSurfaceVariant">
+
+            <TextView
+                android:id="@+id/tv_timeline_file_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="2025-06-16.md" />
+
+            <TextView
+                android:id="@+id/tv_memo_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="3件のメモ" />
+
+        </LinearLayout>
+
+        <!-- Timeline RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_timeline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:listitem="@layout/item_memo" />
+
+        <!-- Empty state -->
+        <LinearLayout
+            android:id="@+id/layout_empty_timeline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="このファイルにはメモがありません"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="右下のボタンで新しいメモを追加しましょう"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <!-- Floating Action Button for actions -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_use_template"
+        android:id="@+id/fab_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:srcCompat="@drawable/ic_add"
         app:tint="?attr/colorOnPrimary"
-        android:contentDescription="テンプレートを使用" />
+        android:contentDescription="新しいメモを追加" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

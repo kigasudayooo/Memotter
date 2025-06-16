@@ -26,6 +26,7 @@ import com.example.memotter.data.model.Document
 import com.example.memotter.ui.dialog.DocumentSelectorDialog
 import com.example.memotter.ui.dialog.SaveDocumentDialog
 import com.example.memotter.util.DocumentManager
+import io.noties.markwon.Markwon
 import java.util.Locale
 
 class MemoFragment : Fragment() {
@@ -36,6 +37,7 @@ class MemoFragment : Fragment() {
     private lateinit var memoViewModel: MemoViewModel
     private lateinit var hashtagAdapter: HashtagSuggestionAdapter
     private lateinit var documentManager: DocumentManager
+    private lateinit var markwon: Markwon
     private var currentDocument: Document? = null
 
     private val speechRecognizerLauncher = registerForActivityResult(
@@ -83,15 +85,17 @@ class MemoFragment : Fragment() {
 
     private fun setupViewModel() {
         val database = MemotterDatabase.getDatabase(requireContext())
-        val repository = MemoRepository(database.memoDao(), database.hashtagDao())
+        val repository = MemoRepository(database.memoDao(), database.hashtagDao(), requireContext())
         val factory = MemoViewModelFactory(repository)
         memoViewModel = ViewModelProvider(this, factory)[MemoViewModel::class.java]
         
         // Initialize document manager
         documentManager = DocumentManager(requireContext())
         
-        // Create new document by default
-        currentDocument = documentManager.createNewDocument()
+        // Initialize Markwon
+        markwon = Markwon.create(requireContext())
+        
+        // Initialize with empty state
         updateDocumentTitle()
     }
 
@@ -106,9 +110,8 @@ class MemoFragment : Fragment() {
                     updateStatusText(content)
                     memoViewModel.onContentChanged(content)
                     
-                    // Update document content
-                    currentDocument = documentManager.updateDocumentContent(content)
-                    updateDocumentTitle()
+                    // Update markdown preview
+                    updateMarkdownPreview(content)
                 }
                 override fun afterTextChanged(s: Editable?) {}
             })
@@ -122,13 +125,7 @@ class MemoFragment : Fragment() {
             btnSave.setOnClickListener {
                 val content = etContent.text.toString().trim()
                 if (content.isNotEmpty()) {
-                    currentDocument?.let { doc ->
-                        if (doc.isNew) {
-                            showSaveAsDialog()
-                        } else {
-                            saveCurrentDocument()
-                        }
-                    } ?: memoViewModel.saveMemo(content)
+                    memoViewModel.saveMemo(content)
                 }
             }
 
@@ -279,9 +276,17 @@ class MemoFragment : Fragment() {
     }
 
     private fun updateDocumentTitle() {
-        currentDocument?.let { doc ->
-            val title = if (doc.isModified) "${doc.displayName} *" else doc.displayName
-            binding.tvDocumentTitle.text = title
+        val title = currentDocument?.let { doc ->
+            if (doc.isModified) "${doc.displayName} *" else doc.displayName
+        } ?: "新しいメモ"
+        binding.tvDocumentTitle.text = title
+    }
+
+    private fun updateMarkdownPreview(content: String) {
+        if (content.isEmpty()) {
+            binding.tvPreview.text = "プレビューがここに表示されます"
+        } else {
+            markwon.setMarkdown(binding.tvPreview, content)
         }
     }
 

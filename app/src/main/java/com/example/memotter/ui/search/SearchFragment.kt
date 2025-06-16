@@ -48,7 +48,7 @@ class SearchFragment : Fragment() {
 
     private fun setupViewModel() {
         val database = MemotterDatabase.getDatabase(requireContext())
-        val repository = MemoRepository(database.memoDao(), database.hashtagDao())
+        val repository = MemoRepository(database.memoDao(), database.hashtagDao(), requireContext())
         val factory = SearchViewModelFactory(repository)
         searchViewModel = ViewModelProvider(this, factory)[SearchViewModel::class.java]
     }
@@ -91,9 +91,6 @@ class SearchFragment : Fragment() {
             },
             onFavoriteClick = { memo ->
                 searchViewModel.toggleFavorite(memo.id, !memo.isFavorite)
-            },
-            onMoreClick = { memo ->
-                // TODO: Show more options menu
             }
         )
 

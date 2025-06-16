@@ -17,17 +17,26 @@ class FileManager(private val context: Context) {
         
         private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     }
+    
+    private val preferencesManager = PreferencesManager(context)
 
     /**
      * Get the main Memotter directory
      */
     fun getMemotterDirectory(): File {
-        val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-        val memotterDir = File(documentsDir, MEMO_DIRECTORY)
-        if (!memotterDir.exists()) {
-            memotterDir.mkdirs()
+        val baseDir = if (preferencesManager.useCustomDirectory && preferencesManager.customDirectoryPath != null) {
+            // Use custom directory
+            File(preferencesManager.customDirectoryPath!!)
+        } else {
+            // Use default directory
+            val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+            File(documentsDir, MEMO_DIRECTORY)
         }
-        return memotterDir
+        
+        if (!baseDir.exists()) {
+            baseDir.mkdirs()
+        }
+        return baseDir
     }
 
     /**

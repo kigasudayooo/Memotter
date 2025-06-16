@@ -2,6 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_open_file"
+        android:icon="@drawable/ic_folder_open"
+        android:orderInCategory="90"
+        android:title="@string/menu_open_file"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_select_directory"
+        android:icon="@drawable/ic_folder"
+        android:orderInCategory="95"
+        android:title="ディレクトリを選択"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_export"
+        android:icon="@drawable/ic_arrow_up"
+        android:orderInCategory="96"
+        android:title="エクスポート"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:orderInCategory="100"

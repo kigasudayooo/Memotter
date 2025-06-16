@@ -42,14 +42,6 @@
                 android:contentDescription="@string/memo_favorite"
                 android:padding="8dp" />
 
-            <ImageButton
-                android:id="@+id/btn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_more_vert"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/menu_more"
-                android:padding="8dp" />
 
         </LinearLayout>
 

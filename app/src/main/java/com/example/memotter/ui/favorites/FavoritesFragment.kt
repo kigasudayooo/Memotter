@@ -40,7 +40,7 @@ class FavoritesFragment : Fragment() {
 
     private fun setupViewModel() {
         val database = MemotterDatabase.getDatabase(requireContext())
-        val repository = MemoRepository(database.memoDao(), database.hashtagDao())
+        val repository = MemoRepository(database.memoDao(), database.hashtagDao(), requireContext())
         val factory = FavoritesViewModelFactory(repository)
         favoritesViewModel = ViewModelProvider(this, factory)[FavoritesViewModel::class.java]
     }
@@ -52,9 +52,6 @@ class FavoritesFragment : Fragment() {
             },
             onFavoriteClick = { memo ->
                 favoritesViewModel.toggleFavorite(memo.id, !memo.isFavorite)
-            },
-            onMoreClick = { memo ->
-                // TODO: Show more options menu
             }
         )
 

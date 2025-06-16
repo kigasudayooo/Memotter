@@ -1,19 +1,27 @@
 package com.example.memotter.data.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.memotter.data.database.HashtagDao
 import com.example.memotter.data.database.MemoDao
 import com.example.memotter.data.model.Hashtag
 import com.example.memotter.data.model.Memo
 import com.example.memotter.util.HashtagExtractor
+import com.example.memotter.util.FileManager
+import com.example.memotter.util.PreferencesManager
+import com.example.memotter.util.CurrentFileManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Date
 
 class MemoRepository(
     private val memoDao: MemoDao,
-    private val hashtagDao: HashtagDao
+    private val hashtagDao: HashtagDao,
+    private val context: Context
 ) {
+    private val fileManager = FileManager(context)
+    private val preferencesManager = PreferencesManager(context)
+    private val currentFileManager = CurrentFileManager(context)
     fun getAllMemos(): LiveData<List<Memo>> = memoDao.getAllMemos()
 
     fun getFavoriteMemos(): LiveData<List<Memo>> = memoDao.getFavoriteMemos()
@@ -37,12 +45,44 @@ class MemoRepository(
         val hashtags = HashtagExtractor.extractHashtags(content)
         val hashtagsString = hashtags.joinToString(",")
 
+        // Check storage permission
+        var finalFilePath: String? = filePath
+        
+        if (fileManager.isExternalStorageWritable()) {
+            try {
+                // Check if there's a current file open
+                val targetFile = if (currentFileManager.hasCurrentFile()) {
+                    // Use current file if available
+                    currentFileManager.getCurrentFile()!!
+                } else {
+                    // Use settings-based file selection
+                    when (preferencesManager.fileMode) {
+                        PreferencesManager.FileMode.DAILY -> {
+                            fileManager.createDailyFileIfNeeded()
+                        }
+                        PreferencesManager.FileMode.CONTINUOUS -> {
+                            fileManager.getLastUsedFile() ?: fileManager.createDailyFileIfNeeded()
+                        }
+                    }
+                }
+
+                // Save to file
+                val fileSuccess = fileManager.appendMemoToFile(targetFile, content)
+                if (fileSuccess) {
+                    finalFilePath = targetFile.absolutePath
+                }
+            } catch (e: Exception) {
+                // Log error but continue with database save
+                android.util.Log.e("MemoRepository", "File save failed: ${e.message}")
+            }
+        }
+
         val memo = Memo(
             content = content,
             createdAt = now,
             updatedAt = now,
             hashtags = hashtagsString,
-            filePath = filePath
+            filePath = finalFilePath
         )
 
         val memoId = memoDao.insert(memo)

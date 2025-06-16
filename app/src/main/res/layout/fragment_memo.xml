@@ -62,33 +62,64 @@
 
     </LinearLayout>
 
-    <!-- Content input -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_layout"
+    <!-- Content input and preview -->
+    <LinearLayout
+        android:id="@+id/content_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/hashtag_suggestions_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:hintEnabled="false">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_content"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hint="@string/memo_hint"
-            android:gravity="top|start"
-            android:inputType="textMultiLine|textCapSentences"
-            android:background="@android:color/transparent"
-            android:scrollbars="vertical"
-            android:maxLines="20"
-            android:textSize="@dimen/text_size_medium" />
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:hintEnabled="false">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/memo_hint"
+                android:gravity="top|start"
+                android:inputType="textMultiLine|textCapSentences"
+                android:background="@android:color/transparent"
+                android:scrollbars="vertical"
+                android:maxLines="20"
+                android:textSize="@dimen/text_size_medium" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Markdown preview -->
+        <ScrollView
+            android:id="@+id/scroll_preview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/rounded_background"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/tv_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="?attr/colorOnSurface"
+                android:lineSpacingMultiplier="1.2"
+                android:text="プレビュー" />
+
+        </ScrollView>
+
+    </LinearLayout>
 
     <!-- Hashtag suggestions -->
     <LinearLayout

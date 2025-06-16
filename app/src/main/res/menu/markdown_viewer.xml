@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <item
+        android:id="@+id/action_toggle_mode"
+        android:icon="@drawable/ic_timeline"
+        android:title="タイムライン表示"
+        app:showAsAction="ifRoom" />
+        
+    <item
+        android:id="@+id/action_edit_file"
+        android:icon="@drawable/ic_edit"
+        android:title="ファイルを編集"
+        app:showAsAction="never" />
+        
+    <item
+        android:id="@+id/action_save_file"
+        android:icon="@drawable/ic_save"
+        android:title="ファイルを保存"
+        android:visible="false"
+        app:showAsAction="never" />
+        
+</menu>
