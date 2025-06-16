@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/memo_item_margin"
+    app:cardCornerRadius="@dimen/memo_corner_radius"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/memo_item_padding">
+
+        <!-- Header with timestamp and actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_timestamp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="2025/06/16 14:30"
+                android:layout_marginEnd="8dp" />
+
+            <ImageButton
+                android:id="@+id/btn_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite_border"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/memo_favorite"
+                android:padding="8dp" />
+
+            <ImageButton
+                android:id="@+id/btn_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_more_vert"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/menu_more"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+        <!-- Memo content -->
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="?attr/colorOnSurface"
+            android:lineSpacingMultiplier="1.2"
+            tools:text="今日は良い天気ですね。#天気 #日記"
+            android:autoLink="web|email" />
+
+        <!-- Hashtags (if any) -->
+        <TextView
+            android:id="@+id/tv_hashtags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/hashtag_color"
+            android:visibility="gone"
+            tools:text="#タグ1 #タグ2"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

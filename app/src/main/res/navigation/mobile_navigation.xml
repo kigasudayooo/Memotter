@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_timeline">
+
+    <fragment
+        android:id="@+id/nav_timeline"
+        android:name="com.example.memotter.ui.timeline.TimelineFragment"
+        android:label="@string/menu_timeline"
+        tools:layout="@layout/fragment_timeline" />
+
+    <fragment
+        android:id="@+id/nav_new_memo"
+        android:name="com.example.memotter.ui.memo.MemoFragment"
+        android:label="@string/menu_new_memo"
+        tools:layout="@layout/fragment_memo" />
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.memotter.ui.search.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="com.example.memotter.ui.favorites.FavoritesFragment"
+        android:label="@string/menu_favorites"
+        tools:layout="@layout/fragment_favorites" />
+
+    <fragment
+        android:id="@+id/nav_templates"
+        android:name="com.example.memotter.ui.templates.TemplatesFragment"
+        android:label="@string/menu_templates"
+        tools:layout="@layout/fragment_templates" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.memotter.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>

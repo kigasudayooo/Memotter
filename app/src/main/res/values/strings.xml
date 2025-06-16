@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">Memotter</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    
+    <!-- Menu items -->
+    <string name="menu_timeline">タイムライン</string>
+    <string name="menu_new_memo">新しいメモ</string>
+    <string name="menu_search">検索</string>
+    <string name="menu_favorites">お気に入り</string>
+    <string name="menu_templates">テンプレート</string>
+    <string name="menu_settings">設定</string>
+    
+    <!-- Memo -->
+    <string name="memo_hint">メモを入力してください...</string>
+    <string name="memo_save">保存</string>
+    <string name="memo_cancel">キャンセル</string>
+    <string name="memo_delete">削除</string>
+    <string name="memo_edit">編集</string>
+    <string name="memo_favorite">お気に入り</string>
+    
+    <!-- Search -->
+    <string name="search_hint">検索...</string>
+    <string name="search_hashtag">ハッシュタグ</string>
+    <string name="search_text">テキスト</string>
+    
+    <!-- Voice input -->
+    <string name="voice_input">音声入力</string>
+    <string name="voice_listening">音声を聞いています...</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+    <string name="delete">削除</string>
+    <string name="edit">編集</string>
+    
+    <!-- Navigation header -->
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_subtitle">快適なメモライフを</string>
+    
+    <!-- More menu -->
+    <string name="menu_more">その他</string>
+    
+    <!-- Empty states -->
+    <string name="empty_timeline">メモがありません</string>
+    <string name="empty_timeline_desc">右下の + ボタンを押して\n最初のメモを作成しましょう</string>
+    
+    <!-- Hashtag suggestions -->
+    <string name="hashtag_suggestions">よく使うハッシュタグ</string>
+    
+    <!-- Search -->
+    <string name="search_all">すべて</string>
+    <string name="popular_hashtags">人気のハッシュタグ</string>
+    <string name="empty_search">検索してください</string>
+    <string name="empty_search_desc">メモの内容やハッシュタグで\n検索できます</string>
+    <string name="no_search_results">検索結果がありません</string>
+    
+    <!-- Favorites -->
+    <string name="empty_favorites">お気に入りがありません</string>
+    <string name="empty_favorites_desc">メモのハートアイコンをタップして\nお気に入りに追加しましょう</string>
+    
+    <!-- Templates -->
+    <string name="empty_templates">テンプレートがありません</string>
+    <string name="empty_templates_desc">テンプレートディレクトリに\nマークダウンファイルを追加してください</string>
+    
+    <!-- Settings -->
+    <string name="settings_file_management">ファイル管理</string>
+    <string name="settings_file_mode">ファイル保存方式</string>
+    <string name="settings_daily_file_mode">日付ファイル方式</string>
+    <string name="settings_continuous_file_mode">継続ファイル方式</string>
+    <string name="settings_app">アプリ設定</string>
+    <string name="settings_dark_mode">ダークモード</string>
+    <string name="settings_font_size">フォントサイズ</string>
+    <string name="settings_about">アプリについて</string>
+    <string name="app_version">バージョン 1.0</string>
+</resources>
