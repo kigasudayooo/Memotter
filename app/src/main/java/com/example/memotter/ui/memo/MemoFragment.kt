@@ -22,6 +22,10 @@ import com.example.memotter.R
 import com.example.memotter.data.database.MemotterDatabase
 import com.example.memotter.data.repository.MemoRepository
 import com.example.memotter.databinding.FragmentMemoBinding
+import com.example.memotter.data.model.Document
+import com.example.memotter.ui.dialog.DocumentSelectorDialog
+import com.example.memotter.ui.dialog.SaveDocumentDialog
+import com.example.memotter.util.DocumentManager
 import java.util.Locale
 
 class MemoFragment : Fragment() {
@@ -31,6 +35,8 @@ class MemoFragment : Fragment() {
 
     private lateinit var memoViewModel: MemoViewModel
     private lateinit var hashtagAdapter: HashtagSuggestionAdapter
+    private lateinit var documentManager: DocumentManager
+    private var currentDocument: Document? = null
 
     private val speechRecognizerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -80,6 +86,13 @@ class MemoFragment : Fragment() {
         val repository = MemoRepository(database.memoDao(), database.hashtagDao())
         val factory = MemoViewModelFactory(repository)
         memoViewModel = ViewModelProvider(this, factory)[MemoViewModel::class.java]
+        
+        // Initialize document manager
+        documentManager = DocumentManager(requireContext())
+        
+        // Create new document by default
+        currentDocument = documentManager.createNewDocument()
+        updateDocumentTitle()
     }
 
     private fun setupViews() {
@@ -92,16 +105,36 @@ class MemoFragment : Fragment() {
                     btnSave.isEnabled = content.trim().isNotEmpty()
                     updateStatusText(content)
                     memoViewModel.onContentChanged(content)
+                    
+                    // Update document content
+                    currentDocument = documentManager.updateDocumentContent(content)
+                    updateDocumentTitle()
                 }
                 override fun afterTextChanged(s: Editable?) {}
             })
+
+            // Document title click - show document selector
+            tvDocumentTitle.setOnClickListener {
+                showDocumentSelector()
+            }
 
             // Save button click
             btnSave.setOnClickListener {
                 val content = etContent.text.toString().trim()
                 if (content.isNotEmpty()) {
-                    memoViewModel.saveMemo(content)
+                    currentDocument?.let { doc ->
+                        if (doc.isNew) {
+                            showSaveAsDialog()
+                        } else {
+                            saveCurrentDocument()
+                        }
+                    } ?: memoViewModel.saveMemo(content)
                 }
+            }
+
+            // Save as button click
+            btnSaveAs.setOnClickListener {
+                showSaveAsDialog()
             }
 
             // Voice input button click
@@ -177,11 +210,79 @@ class MemoFragment : Fragment() {
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.JAPAN.toString())
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "ja-JP")
+            putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, true)
             putExtra(RecognizerIntent.EXTRA_PROMPT, "メモを音声で入力してください")
         }
 
         speechRecognizerLauncher.launch(intent)
+    }
+
+    private fun showDocumentSelector() {
+        val dialog = DocumentSelectorDialog.newInstance(
+            onDocumentSelected = { file ->
+                openDocument(file)
+            },
+            onNewDocumentRequested = {
+                createNewDocument()
+            }
+        )
+        dialog.show(parentFragmentManager, "DocumentSelector")
+    }
+
+    private fun showSaveAsDialog() {
+        currentDocument?.let { doc ->
+            val dialog = SaveDocumentDialog.newInstance(
+                document = doc,
+                onSaveSuccess = { file ->
+                    Toast.makeText(requireContext(), "ファイルを保存しました: ${file.name}", Toast.LENGTH_SHORT).show()
+                    updateDocumentTitle()
+                },
+                onSaveError = { error ->
+                    Toast.makeText(requireContext(), error, Toast.LENGTH_LONG).show()
+                }
+            )
+            dialog.show(parentFragmentManager, "SaveDocument")
+        }
+    }
+
+    private fun openDocument(file: java.io.File) {
+        val document = documentManager.openDocument(file)
+        if (document != null) {
+            currentDocument = document
+            binding.etContent.setText(document.content)
+            updateDocumentTitle()
+            Toast.makeText(requireContext(), "ドキュメントを開きました: ${document.name}", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "ファイルの読み込みに失敗しました", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun createNewDocument() {
+        currentDocument = documentManager.createNewDocument()
+        binding.etContent.setText("")
+        updateDocumentTitle()
+        Toast.makeText(requireContext(), "新しいドキュメントを作成しました", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun saveCurrentDocument() {
+        currentDocument?.let { doc ->
+            if (documentManager.saveDocument(doc)) {
+                currentDocument = documentManager.getCurrentDocument()
+                updateDocumentTitle()
+                Toast.makeText(requireContext(), "ドキュメントを保存しました", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "保存に失敗しました", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateDocumentTitle() {
+        currentDocument?.let { doc ->
+            val title = if (doc.isModified) "${doc.displayName} *" else doc.displayName
+            binding.tvDocumentTitle.text = title
+        }
     }
 
     override fun onDestroyView() {

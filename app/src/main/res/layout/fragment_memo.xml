@@ -19,6 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/tv_document_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="新しいドキュメント"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnSurface"
+            android:gravity="start|center_vertical"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true" />
+
         <ImageButton
             android:id="@+id/btn_voice_input"
             android:layout_width="wrap_content"
@@ -28,10 +43,14 @@
             android:contentDescription="@string/voice_input"
             android:padding="8dp" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/btn_save_as"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="名前をつけて保存"
+            android:padding="8dp" />
 
         <Button
             android:id="@+id/btn_save"
@@ -54,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
-        app:boxStyle="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Include important user data -->
+    <include domain="file" path="memos/"/>
+    <include domain="file" path="templates/"/>
+</full-backup-content>

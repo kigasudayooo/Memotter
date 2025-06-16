@@ -29,6 +29,15 @@
             tools:text="日記テンプレート" />
 
         <TextView
+            android:id="@+id/tv_template_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="2KB • 2024/06/16 12:30" />
+
+        <TextView
             android:id="@+id/tv_template_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

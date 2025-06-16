@@ -41,4 +41,16 @@
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/nav_markdown_viewer"
+        android:name="com.example.memotter.ui.markdown.MarkdownViewerFragment"
+        android:label="マークダウンビューア"
+        tools:layout="@layout/fragment_markdown_viewer" />
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.example.memotter.ui.help.HelpFragment"
+        android:label="ヘルプ"
+        tools:layout="@layout/fragment_help" />
+
 </navigation>

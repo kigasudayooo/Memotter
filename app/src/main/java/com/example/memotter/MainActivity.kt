@@ -26,17 +26,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.appBarMain.toolbar)
-
-        binding.appBarMain.fabNewMemo.setOnClickListener { view ->
-            // Navigate to new memo fragment
-            navController.navigate(R.id.nav_new_memo)
-        }
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        navController = findNavController(R.id.nav_host_fragment_content_main)
+        
+        // NavController will be initialized in onStart()
+        findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.fab_new_memo).setOnClickListener { view ->
+            // Navigate to new memo fragment
+            if (::navController.isInitialized) {
+                navController.navigate(R.id.nav_new_memo)
+            }
+        }
 
+        // Navigation setup will be done in onStart()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        
+        // Initialize NavController after the activity is fully started
+        navController = findNavController(R.id.nav_host_fragment_content_main)
+        
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+        
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(

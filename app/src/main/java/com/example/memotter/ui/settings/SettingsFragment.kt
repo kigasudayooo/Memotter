@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.memotter.R
 import com.example.memotter.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -42,6 +44,11 @@ class SettingsFragment : Fragment() {
             // Font size slider
             sliderFontSize.addOnChangeListener { _, value, _ ->
                 // TODO: Apply font size
+            }
+
+            // Help button
+            btnHelp.setOnClickListener {
+                findNavController().navigate(R.id.nav_help)
             }
         }
     }
